@@ -1,0 +1,41 @@
+.Sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 190px;
+  height: auto;
+  background: #202225;
+  overflow: auto;
+  z-index: 3;
+
+  .brand {
+    padding: 25px;
+    img {
+      display: inline-block;
+    }
+  }
+
+  .wellcome {
+    font-size: 14px;
+    font-weight: lighter;
+    color: #eee;
+    text-align: center;
+    padding: 10px 15px;
+
+    span, .table, th, .form-control {
+      font-weight: 400;
+    }
+  }
+
+  a {
+    color: #eee;
+    text-decoration: none;
+  }
+
+  ul {
+    position: relative;
+    margin: 0;
+    padding: 0;
+  }
+}
