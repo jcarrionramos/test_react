@@ -1,10 +1,5 @@
 #Ready
-- Webpack Configurado en Development.
-- ESLint Configurado
-- Babel Configurado
-
-#Falta
-- Webpack Build
-- SASS para los CSS
-- Flow
-- Configurar mejor el Hot Loader
+- Download and install NPM and ``Node.js``
+- Go to the root application folder
+- run ``npm install`` command to install the dependences
+- Be Happy
