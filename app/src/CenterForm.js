@@ -1,53 +1,100 @@
 import React, {Component} from 'react'
-import {DatePicker,Grid, Row, Col, Modal, Navbar, Button, Navitem, Checkbox, Popover, Tooltip, FormGroup, ControlLabel, FormControl, HelpBlock} from 'react-bootstrap';
+import Modal from 'react-bootstrap/lib/Modal';
+import Checkbox from 'react-bootstrap/lib/Checkbox';
+import Popover from 'react-bootstrap/lib/Popover';
+import FormControl from 'react-bootstrap/lib/FormControl';
+import Row from "react-bootstrap/lib/Row";
+import Col from "react-bootstrap/lib/Col";
+import Button from "react-bootstrap/lib/Button";
+import FormGroup from 'react-bootstrap/lib/FormGroup';
+import ControlLabel from 'react-bootstrap/lib/ControlLabel';
+import HelpBlock from 'react-bootstrap/lib/HelpBlock';
+import DatePicker from 'react-bootstrap-date-picker';
 import './CenterForm.scss';
 
-const spanishDayLabels = ['Dom', 'Lu', 'Ma', 'Mx', 'Ju', 'Vi', 'Sab'];
-const spanishMonthLabels = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-const wapperDivStyle = { border: '1px solid #ccc' };
-const scrollingDivStyle = { padding: '10px', height: '70px', overflow: 'auto' };
-
-const DateForm = React.createClass({
-  getInitialState() {
+const TimePicker = React.createClass({
+  getInitialState: function(){
+    const value = new Date().toISOString();
     return {
-      date: new Date().toISOString(),
-      previousDate: null,
-      focused: false
-    };
+      value: value
+    }
   },
-  handleChange(value) {
+  handleChange: function(value, formattedValue) {
     this.setState({
-      date: value
+      value: value, // ISO String, ex: "2016-11-19T12:00:00.000Z"
+      formattedValue: formattedValue // Formatted String, ex: "11/19/2016"
     });
   },
-  render() {
-    const LabelISOString = new Date().toISOString();
-    return <Grid>
-        <Row>
-          <Col>
-            <FormGroup>
-              <ControlLabel>DD-MM-YYYY</ControlLabel>
-              <DatePicker dateFormat="DD-MM-YYYY" onChange={this.handleChange} value={this.state.date} />
-              <HelpBlock>Help</HelpBlock>
-            </FormGroup>
-          </Col>
-        </Row>
-      </Grid>;
-    }
+  componentDidUpdate: function(){
+    // Access ISO String and formatted values from the DOM.
+    const hiddenInputElement = document.getElementById("datepicker");
+    console.log(hiddenInputElement.value); // ISO String, ex: "2016-11-19T12:00:00.000Z"
+    console.log(hiddenInputElement.getAttribute('data-formattedvalue')) // Formatted String, ex: "11/19/2016"
+  },
+  render: function(){
+    return <FormGroup>
+      <ControlLabel>Seleccione una Fecha</ControlLabel>
+      <DatePicker id="datepicker" value={this.state.value} onChange={this.handleChange} />
+    </FormGroup>;
+  }
 });
 
-const CustomControl = React.createClass({
-  displayName: 'CustomControl',
+function FieldGroup({ id, label, help, ...props }) {
+  return (
+    <FormGroup controlId={id}>
+      <ControlLabel>{label}</ControlLabel>
+      <FormControl {...props} />
+      {help && <HelpBlock>{help}</HelpBlock>}
+    </FormGroup>
+  );
+}
 
-  render() {
-    const {
-      value,
-      placeholder,
-      ...rest,
-    } = this.props;
+const OtherReason = React.createClass({
+  render: function(){
+    return(
+      <div><br/>
+         <FormGroup controlId="formControlsTextarea">
+           <ControlLabel>Otro</ControlLabel>
+           <FormControl componentClass="textarea" placeholder="Escriba el motivo de la recuperación." />
+         </FormGroup>
+      </div>
+    );
+  }
+});
 
-    return <Button {...rest}>{value || placeholder}</Button>;
-  },
+const ReasonForm = React.createClass({
+     getInitialState: function() {
+         return {
+             value: '1',
+         }
+     },
+     change: function(event){
+        this.setState({value: event.target.value});
+     },
+     expand: function() {
+       return(
+         <div>
+           <FormGroup controlId="formControlsTextarea">
+             <ControlLabel>Otro motivo</ControlLabel>
+             <FormControl componentClass="textarea" placeholder="escriba una razón." />
+           </FormGroup>
+         </div>
+       );
+     },
+     render: function(){
+        return(
+           <div>
+             <ControlLabel>Motivo de la recuperación</ControlLabel>
+               <FormControl componentClass="select" onChange={this.change} value={this.state.value}>
+                  <option value="1">Se quemo el pc</option>
+                  <option value="2">Se quemo la marraqueta</option>
+                  <option value="3">Tanto te importa?</option>
+                  <option value="4">Otro</option>
+              </FormControl>
+              {this.state.value == "4" &&  <OtherReason />}
+           </div>
+        );
+     }
 });
 
 const SuperButton = React.createClass({
@@ -97,44 +144,27 @@ const SuperButton = React.createClass({
   }
 });
 
-function FieldGroup({ id, label, help, ...props }) {
-  return (
-    <FormGroup controlId={id}>
-      <ControlLabel>{label}</ControlLabel>
-      <FormControl {...props} />
-      {help && <HelpBlock>{help}</HelpBlock>}
-    </FormGroup>
-  );
-}
-
-
 class CenterForm extends Component {
   render(){
     return(
       <div className="CenterForm">
+
           <Row>
             <Col>
-              <h3>Recupación</h3>
+              <h3 className="title">Recupación</h3> <br/>
+              <TimePicker /><hr/>
               <FieldGroup
                 id="formControlsFile"
                 type="file"
                 label="Agregar Archivos"
                 help="Los archivos seleccionados serán los más proximos a las fecha solicitada"
-                />
-              <Checkbox inline>Incluir archivos eliminados</Checkbox><br/>
-              <FormGroup controlId="formControlsSelect">
-                <ControlLabel>Motivo de la recuperación</ControlLabel>
-                <FormControl componentClass="select" placeholder="select">
-                  <option value="1">Se me quemo el pc</option>
-                  <option value="2">No sé que sucedió</option>
-                  <option value="3">Tanto te importa?</option>
-                  <option value="4">brp</option>
-                </FormControl>
-              </FormGroup>
-              <FormGroup controlId="formControlsTextarea" help="Holi">
-                <ControlLabel>Otro motivo</ControlLabel>
-                <FormControl componentClass="textarea" placeholder="escriba una razón." />
-              </FormGroup>
+                /><hr/>
+              <Checkbox inline>Incluir archivos eliminados</Checkbox><hr/>
+              <ReasonForm /><hr/>
+            </Col>
+          </Row>
+          <Row>
+            <Col className="button">
               <SuperButton />
             </Col>
           </Row>

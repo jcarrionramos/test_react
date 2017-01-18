@@ -1,5 +1,16 @@
 .CenterForm{
   position: fixed;
+  padding-left: 25px;
   top: 120px;
   left: 460px;
+
+  .title{
+    font-weight: bold;
+    padding-right: 33px;
+  }
+
+  .button{
+    padding-top: 10px;
+    padding-left: 400px;
+  }
 }

@@ -15,9 +15,17 @@ class Page extends Component {
           <Col md={12}>
             <HeaderPage />
           </Col>
-          <PageSidebar />
-          <CenterForm />
-          <InfoBar />
+        </Row>
+        <Row>
+          <Col>
+            <PageSidebar />
+          </Col>
+          <Col>
+            <CenterForm />
+          </Col>
+          <Col>
+            <InfoBar />
+          </Col>
         </Row>
       </Grid>
     );
