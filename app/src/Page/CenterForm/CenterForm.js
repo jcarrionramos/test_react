@@ -1,4 +1,5 @@
-import React, {Component} from 'react'
+
+import React, {Component} from 'react';
 import Modal from 'react-bootstrap/lib/Modal';
 import Checkbox from 'react-bootstrap/lib/Checkbox';
 import Popover from 'react-bootstrap/lib/Popover';

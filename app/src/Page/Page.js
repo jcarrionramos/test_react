@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
-import HeaderPage from './HeaderPage';
-import PageSidebar from './PageSidebar';
-import CenterForm from './CenterForm';
-import InfoBar from './InfoBar';
-//CSS
-import './Page.scss';
+import HeaderPage from './HeaderPage/HeaderPage.js';
+import PageSidebar from './PageSidebar/PageSidebar.js';
+import CenterForm from './CenterForm/CenterForm.js';
+import InfoBar from './InfoBar/InfoBar.js';
 import {Grid, Row, Col} from 'react-bootstrap';
+import './Page.scss';
 
 class Page extends Component {
   render() {

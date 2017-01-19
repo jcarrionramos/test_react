@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react';
-import Sidebar from './Sidebar';
-import Page from './Page';
+import Sidebar from './Sidebar/Sidebar.js';
+import Page from './Page/Page.js';
 
 //CSS
 import './App.scss';
