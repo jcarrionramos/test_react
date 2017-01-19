@@ -1,4 +1,3 @@
-
 import React, {Component} from 'react';
 import Modal from 'react-bootstrap/lib/Modal';
 import Checkbox from 'react-bootstrap/lib/Checkbox';
@@ -12,6 +11,61 @@ import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import HelpBlock from 'react-bootstrap/lib/HelpBlock';
 import DatePicker from 'react-bootstrap-date-picker';
 import './CenterForm.scss';
+
+import {Treebeard} from 'react-treebeard';
+
+const data = {
+    name: 'root',
+    toggled: true,
+    children: [
+        {
+            name: 'parent',
+            children: [
+                { name: 'child1' },
+                { name: 'child2' }
+            ]
+        },
+        {
+            name: 'loading parent',
+            loading: true,
+            children: []
+        },
+        {
+            name: 'parent',
+            children: [
+                {
+                    name: 'nested parent',
+                    children: [
+                        { name: 'nested child 1' },
+                        { name: 'nested child 2' }
+                    ]
+                }
+            ]
+        }
+    ]
+};
+
+class TreeExample extends React.Component {
+    constructor(props){
+        super(props);
+        this.state = {};
+        this.onToggle = this.onToggle.bind(this);
+    }
+    onToggle(node, toggled){
+        if(this.state.cursor){this.state.cursor.active = false;}
+        node.active = true;
+        if(node.children){ node.toggled = toggled; }
+        this.setState({ cursor: node });
+    }
+    render(){
+        return (
+            <Treebeard
+                data={data}
+                onToggle={this.onToggle}
+            />
+        );
+    }
+}
 
 const TimePicker = React.createClass({
   getInitialState: function(){
@@ -40,15 +94,48 @@ const TimePicker = React.createClass({
   }
 });
 
-function FieldGroup({ id, label, help, ...props }) {
-  return (
-    <FormGroup controlId={id}>
-      <ControlLabel>{label}</ControlLabel>
-      <FormControl {...props} />
-      {help && <HelpBlock>{help}</HelpBlock>}
-    </FormGroup>
-  );
-}
+const TreePicker = React.createClass({
+  getInitialState() {
+    return { showModal: false };
+  },
+  close() {
+    this.setState({ showModal: false });
+  },
+  open() {
+    this.setState({ showModal: true });
+  },
+  render() {
+    const popover = (
+      <Popover id="modal-popover" title="popover">
+        very popover. such engagement
+      </Popover>
+    );
+    return (
+      <div>
+        <FormGroup controlId="TreePicker">
+            <ControlLabel>Agregar Archivos</ControlLabel><br/>
+            <Button  bsSize="small" onClick={this.open}>
+              Seleccionar...
+            </Button>
+            <HelpBlock>
+              Los archivos seleccionados serán los más proximos a las fecha solicitada
+            </HelpBlock>
+        </FormGroup>
+        <Modal show={this.state.showModal} onHide={this.close}>
+          <Modal.Header>
+            <h3>Aquí debe ir el puto TreePicker</h3>
+          </Modal.Header>
+          <Modal.Body>
+            <TreeExample />
+          </Modal.Body>
+          <Modal.Footer>
+            <Button bsStyle="primary" onClick={this.close}>Aceptar</Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
+    );
+  }
+});
 
 const OtherReason = React.createClass({
   render: function(){
@@ -98,36 +185,27 @@ const ReasonForm = React.createClass({
      }
 });
 
-const SuperButton = React.createClass({
+const ConfirmButton = React.createClass({
   getInitialState() {
     return { showModal: false };
   },
-
   close() {
     this.setState({ showModal: false });
   },
-
   open() {
     this.setState({ showModal: true });
   },
-
   render() {
     const popover = (
       <Popover id="modal-popover" title="popover">
         very popover. such engagement
       </Popover>
     );
-
     return (
       <div>
-        <Button
-          bsStyle="primary"
-          bsSize="medium"
-          onClick={this.open}
-        >
+        <Button bsStyle="primary" bsSize="medium" onClick={this.open}>
           Confirmar
         </Button>
-
         <Modal show={this.state.showModal} onHide={this.close}>
           <Modal.Header closeButton>
             <Modal.Title>Confrimación de la recuperación</Modal.Title>
@@ -154,19 +232,14 @@ class CenterForm extends Component {
             <Col>
               <h3 className="title">Recupación</h3> <br/>
               <TimePicker /><hr/>
-              <FieldGroup
-                id="formControlsFile"
-                type="file"
-                label="Agregar Archivos"
-                help="Los archivos seleccionados serán los más proximos a las fecha solicitada"
-                /><hr/>
+              <TreePicker /><hr/>
               <Checkbox inline>Incluir archivos eliminados</Checkbox><hr/>
               <ReasonForm /><hr/>
             </Col>
           </Row>
           <Row>
             <Col className="button">
-              <SuperButton />
+              <ConfirmButton />
             </Col>
           </Row>
       </div>

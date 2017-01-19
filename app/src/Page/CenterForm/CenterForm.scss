@@ -3,6 +3,11 @@
   padding-left: 25px;
   top: 120px;
   left: 460px;
+  right: 390px;
+  overflow-y: auto;
+  overflow-x: hidden!important;
+  bottom: 0;
+  padding-bottom: 15px;
 
   .title{
     font-weight: bold;
