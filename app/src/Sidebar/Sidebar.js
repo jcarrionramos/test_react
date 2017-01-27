@@ -21,15 +21,15 @@ render() {
       </div>
 
       <ul>
-        <li active-menu="" className="active"><a href="#/files"><i className="fa fa-files-o"></i> Archivos</a></li>
-        <li><a href="" ng-click="sharedFiles()"><i className="fa fa-share-alt"></i> Compartidos</a></li>
-        <li><a href="" ng-click="support()"><i className="fa fa-ticket"></i> Soporte</a></li>
-        <li><a href="" ><i className="fa fa-ticket"></i> Recuperación</a></li>
+        <li  className="active"><a href="#/files"><i className="fa fa-files-o"></i> Archivos</a></li>
+        <li><a href=""><i className="fa fa-share-alt"></i> Compartidos</a></li>
+        <li><a href=""><i className="fa fa-ticket"></i> Soporte</a></li>
+        <li><a href=""><i className="fa fa-ticket"></i> Recuperación</a></li>
       </ul>
 
       <ul>
-        <li><a href="" ng-click="account()"><i className="fa fa-user"></i> Cuenta</a></li>
-        <li><a href="" ng-click="logout()"><i className="fa fa-power-off"></i> Salir</a></li>
+        <li><a href=""><i className="fa fa-user"></i> Cuenta</a></li>
+        <li><a href=""><i className="fa fa-power-off"></i> Salir</a></li>
       </ul>
     </div>
   );
